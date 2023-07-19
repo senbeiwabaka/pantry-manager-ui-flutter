@@ -1,16 +1,7 @@
 # pantry_manager_ui
 
-A new Flutter project.
+Flutter UI for [Pantry Manager](https://github.com/senbeiwabaka/pantry-manager-api).
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project has only runs on Android currently. IOS was not and won't be tested. If someone wants to test IOS, please do. Windows is broken due to `simple_barcode_scanner`. Web is broken due to `sqlite3`.
