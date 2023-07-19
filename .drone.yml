@@ -14,7 +14,9 @@ steps:
       # - useradd -ms /bin/bash developer
       # - USER developer
       # - WORKDIR /home/developer
-      - mkdir -p Android/sdk
+      - mkdir -p /home/Android/sdk
+      - ls /home
+      - cd /home
       - ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
       - wget -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
