@@ -9,6 +9,7 @@ steps:
   - name: Build & Test
     image: ubuntu:20.04
     commands:
+      - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
       - apt update && apt install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget
       # - useradd -ms /bin/bash developer
       # - USER developer
