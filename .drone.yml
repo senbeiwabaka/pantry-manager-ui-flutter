@@ -15,16 +15,12 @@ steps:
       # - USER developer
       # - WORKDIR /home/developer
       - mkdir -p /home/Android/sdk
-      - ls /home
-      - cd /home
+      - ls 
       - export ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
-      - wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
-      - unzip -qq sdk-tools.zip && rm sdk-tools.zip > /dev/null
+      - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
+      - unzip -qq sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
-      - ls /home/Android
-      - ls /home/Android/sdk
-      - ls /home/Android/sdk/tools
       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
       - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
