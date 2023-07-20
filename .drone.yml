@@ -24,9 +24,9 @@ steps:
       - mv tools Android/sdk/tools
       - cd Android/sdk/tools/bin && yes | ./sdkmanager --licenses
       - cd Android/sdk/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"
-      - PATH="$PATH:/home/developer/Android/sdk/platform-tools"
+      - PATH="$PATH:/home/Android/sdk/platform-tools"
       - git clone https://github.com/flutter/flutter.git
-      - PATH="$PATH:/home/developer/flutter/bin"
+      - PATH="$PATH:/home/flutter/bin"
       - flutter test
       - dart test_cov_console 
 
