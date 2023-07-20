@@ -26,8 +26,7 @@ steps:
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
-      - ls ~
-      - ls /drone/src/
+      - cd /drone/src/
       - flutter test
       - dart test_cov_console
 
