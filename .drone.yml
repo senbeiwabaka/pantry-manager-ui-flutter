@@ -20,7 +20,7 @@ steps:
       - export ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
       - wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
-      - unzip -qq sdk-tools.zip && rm sdk-tools.zip
+      - unzip -qq sdk-tools.zip && rm sdk-tools.zip > /dev/null
       - mv tools Android/sdk/tools
       - ls /home/Android
       - ls /home/Android/sdk
@@ -31,7 +31,7 @@ steps:
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
       - ls ~
-      - ls
+      - ls /drone/src/
       - flutter test
       - dart test_cov_console
 
