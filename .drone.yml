@@ -31,6 +31,7 @@ steps:
       - cd /home
       - git clone https://github.com/flutter/flutter.git
       - PATH="$PATH:/home/flutter/bin"
+      - ls ~
       - flutter test
       - dart test_cov_console 
 
