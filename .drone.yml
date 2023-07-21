@@ -26,10 +26,8 @@ steps:
       - dart pub global activate test_cov_console
       - export PATH="$PATH:/root/.pub-cache/bin"
       - echo $PATH
-      - ls /root/.pub-cache/bin
       - flutter test
       - dart run test_cov_console
-      - dart pub run test_cov_console
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
