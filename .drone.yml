@@ -28,8 +28,8 @@ steps:
       - echo $PATH
       - ls /root/.pub-cache/bin
       - flutter test
-      - flutter test --coverage
-      - dart test_cov_console
+      - dart run test_cov_console
+      - dart pub run test_cov_console
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
