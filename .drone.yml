@@ -24,6 +24,7 @@ steps:
       - export PATH="$PATH:/home/flutter/bin"
       - cd /drone/src/
       - dart pub global activate test_cov_console
+      - export PATH="$PATH:$HOME/.pub-cache/bin"
       - flutter test
       - dart test_cov_console
 
