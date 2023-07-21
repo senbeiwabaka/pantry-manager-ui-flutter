@@ -10,7 +10,7 @@ steps:
     image: ubuntu:20.04
     commands:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-      - apt -qq update > /dev/null && apt -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 > /dev/null
+      - apt -qq update > /dev/null && apt -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 sqlite-libs > /dev/null
       # - useradd -ms /bin/bash developer
       # - USER developer
       # - WORKDIR /home/developer
