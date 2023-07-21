@@ -27,7 +27,7 @@ steps:
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
       - cd /drone/src/
-      - dart tool/linux_setup.dart
+      #- dart tool/linux_setup.dart
       - flutter test
       - dart test_cov_console
 
