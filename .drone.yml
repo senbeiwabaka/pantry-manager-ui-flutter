@@ -28,6 +28,7 @@ steps:
       - echo $PATH
       - ls /root/.pub-cache/bin
       - flutter test
+      - flutter test --coverage
       - dart test_cov_console
 
   - name: code-analysis
