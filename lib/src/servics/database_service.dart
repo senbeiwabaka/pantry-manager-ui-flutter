@@ -4,7 +4,6 @@ import 'package:pantry_manager_ui/src/models/product.dart';
 import 'package:pantry_manager_ui/src/servics/logger.dart';
 import 'package:qinject/qinject.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-// import 'package:sqlite3/sqlite3.dart';
 
 import '../models/grocery_list_item.dart';
 import '../models/inventory_item.dart';
@@ -24,19 +23,16 @@ class DatabaseService {
     if (!await _fileService.fileExists(_databaseName)) {
       final File file = await _fileService.localFile(_databaseName);
 
-      var databaseFactory = databaseFactoryFfi;
-      // var options = new OpenDatabaseOptions()
       var db = await databaseFactory.openDatabase(file.path);
-      // final db = sqlite3.open(file.path, mode: OpenMode.readWriteCreate);
 
-      db.close();
+      await db.close();
     }
   }
 
   Future _createTables() async {
     final file = await _fileService.localFile(_databaseName);
+
     var db = await databaseFactory.openDatabase(file.path);
-    // final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
 
     const String productsTableSQL = """CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
@@ -46,7 +42,7 @@ class DatabaseService {
             category TEXT NULL,
             image_url TEXT NULL
           );""";
-    db.execute(productsTableSQL);
+    await db.execute(productsTableSQL);
 
     const String inventoryTableSQL = """CREATE TABLE IF NOT EXISTS "inventory" (
             "id" INTEGER PRIMARY KEY,
@@ -56,7 +52,7 @@ class DatabaseService {
             "product_id" INTEGER NOT NULL,
             FOREIGN KEY(product_id) REFERENCES products(id)
           );""";
-    db.execute(inventoryTableSQL);
+    await db.execute(inventoryTableSQL);
 
     const String groceriesTableSQL = """CREATE TABLE IF NOT EXISTS "groceries" (
             "id" INTEGER PRIMARY KEY,
@@ -66,13 +62,16 @@ class DatabaseService {
             "inventory_item_id" INTEGER NOT NULL,
             FOREIGN KEY(inventory_item_id) REFERENCES inventory(id)
           );""";
-    db.execute(groceriesTableSQL);
+    await db.execute(groceriesTableSQL);
 
-    db.close();
+    await db.close();
   }
 
   Future initDatabase() async {
     sqfliteFfiInit();
+
+    databaseFactory = databaseFactoryFfi;
+
     await _createDatabase();
     await _createTables();
   }
@@ -80,12 +79,11 @@ class DatabaseService {
   Future<bool> insertData(Object data) async {
     final file = await _fileService.localFile(_databaseName);
     var db = await databaseFactory.openDatabase(file.path);
-    // final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
 
     if (data is Product) {
       final Product productData = data;
 
-      db.execute(
+      await db.execute(
           "INSERT INTO products (upc, label, brand, category, image_url) VALUES(?,?,?,?,?)",
           [
             productData.upc,
@@ -97,9 +95,7 @@ class DatabaseService {
     }
 
     if (data is InventoryItem) {
-      // db.query(table)
       final List<Map> productResults = await db.query("products");
-      // .select("SELECT id FROM products WHERE upc = ?", [data.product.upc]);
 
       if (productResults.isEmpty) {
         return false;
@@ -107,11 +103,11 @@ class DatabaseService {
 
       final productId = productResults.first["id"] as int;
 
-      db.execute("""
-      INSERT INTO inventory
-        (count, number_used_in_past_30_days, on_grocery_list, product_id)
-      VALUES 
-        (?, ?, ?, ?);""", [1, 0, false, productId]);
+      await db.execute("""
+        INSERT INTO inventory
+          (count, number_used_in_past_30_days, on_grocery_list, product_id)
+        VALUES 
+          (?, ?, ?, ?);""", [1, 0, 0, productId]);
     }
 
     if (data is GroceryListItem) {
@@ -126,11 +122,11 @@ class DatabaseService {
 
       final inventoryItemId = inventoryResults.first["id"] as int;
 
-      db.execute("""
-      INSERT INTO groceries
-        (quantity, shopped, standard_quantity, inventory_item_id)
-      VALUES 
-        (?, ?, ?, ?);""", [0, 0, false, inventoryItemId]);
+      await db.execute("""
+        INSERT INTO groceries
+          (quantity, shopped, standard_quantity, inventory_item_id)
+        VALUES 
+          (?, ?, ?, ?);""", [0, 0, 0, inventoryItemId]);
     }
 
     final List<Map> results = await db.rawQuery("SELECT last_insert_rowid()");
@@ -139,9 +135,9 @@ class DatabaseService {
       return false;
     }
 
-    var id = results.first[0] as int;
+    var id = results.first.values.first as int;
 
-    db.close();
+    await db.close();
 
     return id > 0;
   }
@@ -149,7 +145,6 @@ class DatabaseService {
   Future<bool> updateData(Object data) async {
     final file = await _fileService.localFile(_databaseName);
     var db = await databaseFactory.openDatabase(file.path);
-    // final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
 
     var successful = false;
 
@@ -166,12 +161,12 @@ class DatabaseService {
       final inventoryItemId = inventoryResults.first["id"] as int;
 
       try {
-        db.execute("""
-      UPDATE inventory
-        SET count = ?,
-          number_used_in_past_30_days = ?,
-          on_grocery_list = ?
-        WHERE id = ?;""", [
+        await db.execute("""
+          UPDATE inventory
+            SET count = ?,
+              number_used_in_past_30_days = ?,
+              on_grocery_list = ?
+            WHERE id = ?;""", [
           data.count,
           data.numberUsedInPast30Days,
           data.onGroceryList,
@@ -184,7 +179,7 @@ class DatabaseService {
       }
     }
 
-    db.close();
+    await db.close();
 
     return successful;
   }
@@ -192,7 +187,6 @@ class DatabaseService {
   Future<Object?> getData<T>(String upc) async {
     final file = await _fileService.localFile(_databaseName);
     var db = await databaseFactory.openDatabase(file.path);
-    // final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
 
     String sql;
 
@@ -233,7 +227,7 @@ class DatabaseService {
       throw Error();
     }
 
-    db.close();
+    await db.close();
 
     return returnObject;
   }

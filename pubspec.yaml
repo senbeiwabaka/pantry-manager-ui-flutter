@@ -61,7 +61,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   uuid: ^3.0.7
   plugin_platform_interface: ^2.1.6
-  mockito: ^5.4.0
+  mockito: ^5.4.2
   test_cov_console: ^0.2.2
 
 # For information on the generic Dart part of this file, see the

@@ -5,7 +5,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:qinject/qinject.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqlite3/sqlite3.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:pantry_manager_ui/src/models/inventory_item.dart';
@@ -58,13 +57,13 @@ Future main() async {
 
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
+    final db = await openDatabase(file.path);
 
-    db.execute(
+    await db.execute(
         "INSERT INTO products (upc, label, brand, category, image_url) VALUES(?,?,?,?,?)",
         [expected.upc, expected.label, expected.brand, '', expected.imageUrl]);
 
-    db.dispose();
+    await db.close();
 
     // Act
     final result = await databaseService.getData<Product>("123");
@@ -83,13 +82,13 @@ Future main() async {
 
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
+    final db = await openDatabase(file.path);
 
     db.execute(
         "INSERT INTO products (upc, label, brand, category, image_url) VALUES(?,?,?,?,?)",
         [expected.upc, expected.label, expected.brand, '', expected.imageUrl]);
 
-    db.dispose();
+    await db.close();
 
     // Act
     final result = await databaseService.getData<Product>("123");
@@ -113,19 +112,19 @@ Future main() async {
 
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
+    final db = await openDatabase(file.path);
 
-    db.execute(
+    await db.execute(
         "INSERT INTO products (upc, label, brand, category, image_url) VALUES(?,?,?,?,?)",
         [product.upc, product.label, product.brand, '', product.imageUrl]);
 
-    db.execute("""
+    await db.execute("""
       INSERT INTO inventory
         (count, number_used_in_past_30_days, on_grocery_list, product_id)
       VALUES 
-        (?, ?, ?, ?);""", [1, 0, false, 1]);
+        (?, ?, ?, ?);""", [1, 0, 0, 1]);
 
-    db.dispose();
+    await db.close();
 
     // Act
     final result = await databaseService.getData<InventoryItem>("123");
@@ -158,30 +157,26 @@ Future main() async {
 
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
+    final db = await openDatabase(file.path);
 
-    db.execute(
+    await db.execute(
         "INSERT INTO products (upc, label, brand, category, image_url) VALUES(?,?,?,?,?)",
         [product.upc, product.label, product.brand, '', product.imageUrl]);
 
-    db.execute("""
+    await db.execute("""
       INSERT INTO inventory
         (count, number_used_in_past_30_days, on_grocery_list, product_id)
       VALUES 
-        (?, ?, ?, ?);""", [
-      inventoryItem.count,
-      inventoryItem.numberUsedInPast30Days,
-      inventoryItem.onGroceryList,
-      1
-    ]);
+        (?, ?, ?, ?);""",
+        [inventoryItem.count, inventoryItem.numberUsedInPast30Days, 0, 1]);
 
-    db.execute("""
+    await db.execute("""
       INSERT INTO groceries
         (quantity, shopped, standard_quantity, inventory_item_id)
       VALUES 
-        (?, ?, ?, ?);""", [1, false, 0, 1]);
+        (?, ?, ?, ?);""", [1, 0, 0, 1]);
 
-    db.dispose();
+    await db.close();
 
     // Act
     final result = await databaseService.getData<GroceryListItem>("123");
@@ -204,13 +199,13 @@ Future main() async {
     // Assert
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
-    final List<Map> records =
-        db.select("SELECT * FROM products WHERE upc = ?", [expected.upc]);
+    final db = await openDatabase(file.path);
+    final List<Map> records = await db
+        .rawQuery("SELECT * FROM products WHERE upc = ?", [expected.upc]);
     final Map<String, dynamic> row = records.first as Map<String, dynamic>;
     final data = Product.fromMap(row);
 
-    db.dispose();
+    await db.close();
 
     expect(result, isTrue);
     expect(data, equals(expected));
@@ -235,8 +230,8 @@ Future main() async {
     // Assert
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
-    final List<Map> records = db.select("""
+    final db = await openDatabase(file.path);
+    final List<Map> records = await db.rawQuery("""
           SELECT i.*, p.*
           FROM inventory AS i
           INNER JOIN products AS p ON i.product_id = p.id
@@ -244,7 +239,7 @@ Future main() async {
     final Map<String, dynamic> row = records.first as Map<String, dynamic>;
     final data = InventoryItem.fromMap(row);
 
-    db.dispose();
+    await db.close();
 
     expect(result, isTrue);
     expect(data, equals(expected));
@@ -279,8 +274,8 @@ Future main() async {
     // Assert
     final fileService = qinjector.use<void, FileService>();
     final file = await fileService.localFile(databseName);
-    final db = sqlite3.open(file.path, mode: OpenMode.readWrite);
-    final List<Map> records = db.select("""
+    final db = await openDatabase(file.path);
+    final List<Map> records = await db.rawQuery("""
           SELECT g.*, i.*, p.*
           FROM groceries AS g
           INNER JOIN inventory AS i ON g.inventory_item_id = i.id
@@ -289,7 +284,7 @@ Future main() async {
     final Map<String, dynamic> row = records.first as Map<String, dynamic>;
     final data = GroceryListItem.fromMap(row);
 
-    db.dispose();
+    await db.close();
 
     expect(result, isTrue);
     expect(data, equals(expected));

@@ -17,12 +17,12 @@ class FileService {
 
   Future<File> localFile(String name) async {
     final path = await _localPath;
-    return File('$path/$name');
+    return File('$path\\$name');
   }
 
   Future<bool> fileExists(String name) async {
     final path = await _localPath;
-    return File('$path/$name').exists();
+    return File('$path\\$name').exists();
   }
 
   Future<Settings> readSettings() async {
