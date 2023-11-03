@@ -19,7 +19,8 @@ steps:
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
-      - ls /root
+      - ls ./sdkmanager
+      - yes | ./sdkmanager --licenses
       - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
