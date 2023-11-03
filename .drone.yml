@@ -14,6 +14,7 @@ steps:
       - mkdir -p /home/Android/sdk
       - export ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
+      - mkdir -p /root/.android && touch /root/.android/repositories.cfg
       - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
