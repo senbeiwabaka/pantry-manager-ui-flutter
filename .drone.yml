@@ -21,7 +21,7 @@ steps:
       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
       - ls ./sdkmanager
       - yes | ./sdkmanager --licenses
-      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"
+      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34"
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
