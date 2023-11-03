@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:qinject/qinject.dart';
 
@@ -17,6 +18,7 @@ void main() async {
   Qinject.registerSingleton(() => "pantry_manager_ui.db");
 
   final qinjector = Qinject.instance();
+
   final fileService = qinjector.use<void, FileService>();
   final fileExists = await fileService.fileExists(FileService.settingsName);
 
