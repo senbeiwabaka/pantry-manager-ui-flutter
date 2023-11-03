@@ -10,7 +10,7 @@ steps:
     image: ubuntu:20.04
     commands:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-      - apt -qq update > /dev/null && apt -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
+      - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
       - mkdir -p /home/Android/sdk
       - export ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
@@ -18,6 +18,7 @@ steps:
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
+      - ls /root
       - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
@@ -32,7 +33,7 @@ steps:
     image: ubuntu:20.04
     commands:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-      - apt -qq update > /dev/null && apt -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget libsqlite3-0 libsqlite3-dev > /dev/null
+      - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget libsqlite3-0 libsqlite3-dev > /dev/null
       - mkdir -p /home/Android/sdk
       - export ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
