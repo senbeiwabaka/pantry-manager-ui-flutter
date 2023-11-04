@@ -55,11 +55,13 @@ steps:
       # - mkdir -p /root/.android && touch /root/.android/repositories.cfg
       - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip > /dev/null
       - ls /home
-      - ls
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
-      - mv tools Android/sdk/tools
-      - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
-      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
+      - ls
+      - mv cmdline-tools Android/sdk/tools
+      - cd /home/Android/cmdline-tools/bin && yes | ./sdkmanager --licenses
+      - cd /home/Android/cmdline-tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
+      - ls /home/Android/
+      - ls /home/Android/cmdline-tools
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
