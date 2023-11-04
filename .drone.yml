@@ -40,6 +40,12 @@ platform:
 steps:
   - name: Analysis
     image: ubuntu:20.04
+    environment:
+      sonar_host:
+        from_secret: sonar_host
+      sonar_token:
+        from_secret: sonar_token
+      sonar_version: "4.8.0.2856"
     commands:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
       - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
@@ -62,6 +68,10 @@ steps:
       - dart run test_cov_console
       - flutter test --machine --coverage > tests.output
       - flutter analyze --no-fatal-warnings --no-fatal-infos
+      - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
+      - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
+      - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
+      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token -Dproject.settings=/drone/src/sonar-project.properties
 
   - name: sonar-scanner
     image: ubuntu:20.04
@@ -77,5 +87,4 @@ steps:
       - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
       - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
       - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
-      - ls /drone/src
       - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token -Dproject.settings=/drone/src/sonar-project.properties
