@@ -90,8 +90,8 @@ steps:
       # - mkdir -p /home/Android/sdk
       # - export ANDROID_SDK_ROOT=/home/Android/sdk
       - export ANDROID_HOME=/usr/lib/android-sdk
-      - wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
-      - unzip commandlinetools-linux-6609375_latest.zip -d cmdline-tools
+      - wget -q https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
+      - unzip -q commandlinetools-linux-6609375_latest.zip -d cmdline-tools
       - mkdir --parents "$ANDROID_HOME/cmdline-tools/latest"
       - mv cmdline-tools/* "$ANDROID_HOME/cmdline-tools/latest/"
       - export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
@@ -100,8 +100,8 @@ steps:
       # - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
       # - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       # - mv tools Android/sdk/tools
-      - yes | sdkmanager --licenses
-      - sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
+      - yes | $ANDROID_HOME/sdkmanager --licenses
+      - $ANDROID_HOME/sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       # - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
