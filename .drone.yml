@@ -57,7 +57,7 @@ steps:
       - ls /home
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - ls
-      - mv cmdline-tools Android/sdk/tools
+      - mv cmdline-tools Android
       - cd /home/Android/cmdline-tools/bin && yes | ./sdkmanager --licenses
       - cd /home/Android/cmdline-tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - ls /home/Android/
