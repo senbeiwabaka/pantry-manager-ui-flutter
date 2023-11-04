@@ -91,9 +91,9 @@ steps:
       # - export ANDROID_SDK_ROOT=/home/Android/sdk
       - export ANDROID_HOME=/usr/lib/android-sdk
       - wget -q https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
-      - unzip -q commandlinetools-linux-10406996_latest.zip -d cmdline-tools
+      - unzip commandlinetools-linux-10406996_latest.zip -d cmdline-tools
       - mkdir --parents "$ANDROID_HOME/cmdline-tools/latest"
-      - mv cmdline-tools/bin "$ANDROID_HOME/cmdline-tools/latest/"
+      - mv cmdline-tools/bin/* "$ANDROID_HOME/cmdline-tools/latest/"
       - export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
       - ls $ANDROID_HOME/cmdline-tools/latest
       # - mkdir -p .android && touch .android/repositories.cfg
