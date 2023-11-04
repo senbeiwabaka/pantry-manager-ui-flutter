@@ -14,12 +14,12 @@ steps:
       - mkdir -p /home/Android/sdk
       - export ANDROID_SDK_ROOT=/home/Android/sdk
       - mkdir -p .android && touch .android/repositories.cfg
-      # - mkdir -p /root/.android && touch /root/.android/repositories.cfg
+      - mkdir -p /root/.android && touch /root/.android/repositories.cfg
       - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
-      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34"
+      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
@@ -56,12 +56,12 @@ steps:
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
       - cd /drone/src/
-      #- dart pub global activate test_cov_console
+      - dart pub global activate test_cov_console
       - export PATH="$PATH:/root/.pub-cache/bin"
       - flutter test
-      # - dart run test_cov_console
-      # - cd /home && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip?_gl=1*922ucp*_gcl_au*OTAyOTU0MTk2LjE2ODkwODE1OTc.*_ga*MjQ1Mjc1MTI0LjE2ODkwODE1OTc.*_ga_9JZ0GZ5TC6*MTY5MDE5NzE1OS4xMi4xLjE2OTAyMDM5NjcuMTMuMC4w > /dev/null
-      # - cd /home && unzip -qq sonar-scanner.zip -d sonar-scanner > /dev/null && rm sonar-scanner.zip
+      - dart run test_cov_console
+      - cd /home && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip?_gl=1*922ucp*_gcl_au*OTAyOTU0MTk2LjE2ODkwODE1OTc.*_ga*MjQ1Mjc1MTI0LjE2ODkwODE1OTc.*_ga_9JZ0GZ5TC6*MTY5MDE5NzE1OS4xMi4xLjE2OTAyMDM5NjcuMTMuMC4w > /dev/null
+      - cd /home && unzip -qq sonar-scanner.zip -d sonar-scanner > /dev/null && rm sonar-scanner.zip
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
