@@ -72,11 +72,11 @@ steps:
     commands:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
       - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
-      - cd /home && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
-      - cd /home && unzip -qq sonar-scanner.zip -d sonar-scanner > /dev/null && rm sonar-scanner.zip
-      - ls /home
-      - ls /home/sonar-scanner
-      - /home/sonar-scanner/sonar-scanner-$sonar_version -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token
+      - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
+      - cd /bin && unzip -qq sonar-scanner.zip \ > /dev/null && rm sonar-scanner.zip
+      - ls /bin
+      - ls /bin/sonar-scanner
+      - /bin/sonar-scanner-$sonar_version -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token
 
   # - name: code-analysis
   #   image: aosapps/drone-sonar-plugin
