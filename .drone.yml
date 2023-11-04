@@ -51,7 +51,7 @@ steps:
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
-      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34"
+      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
