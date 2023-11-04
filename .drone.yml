@@ -62,6 +62,8 @@ steps:
       - dart run test_cov_console
       - cd /home && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip?_gl=1*922ucp*_gcl_au*OTAyOTU0MTk2LjE2ODkwODE1OTc.*_ga*MjQ1Mjc1MTI0LjE2ODkwODE1OTc.*_ga_9JZ0GZ5TC6*MTY5MDE5NzE1OS4xMi4xLjE2OTAyMDM5NjcuMTMuMC4w > /dev/null
       - cd /home && unzip -qq sonar-scanner.zip -d sonar-scanner > /dev/null && rm sonar-scanner.zip
+      - ls /home
+      - ls /home/sonar-scanner
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
