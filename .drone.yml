@@ -71,7 +71,7 @@ steps:
       sonar_version: "4.8.0.2856"
     commands:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-      - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
+      - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-11-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
       - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
       - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
       - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
