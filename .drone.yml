@@ -76,7 +76,8 @@ steps:
       - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
       - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
       - ls /bin/sonar-scanner-$sonar_version
-      - /bin/sonar-scanner-$sonar_version -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token
+      - ls /bin/sonar-scanner-$sonar_version/bin
+      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token
 
   # - name: code-analysis
   #   image: aosapps/drone-sonar-plugin
