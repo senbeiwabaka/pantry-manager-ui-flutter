@@ -69,6 +69,8 @@ steps:
       sonar_token:
         from_secret: sonar_token
     commands:
+      - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+      - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
       - cd /home && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip?_gl=1*922ucp*_gcl_au*OTAyOTU0MTk2LjE2ODkwODE1OTc.*_ga*MjQ1Mjc1MTI0LjE2ODkwODE1OTc.*_ga_9JZ0GZ5TC6*MTY5MDE5NzE1OS4xMi4xLjE2OTAyMDM5NjcuMTMuMC4w > /dev/null
       - cd /home && unzip -qq sonar-scanner.zip -d sonar-scanner > /dev/null && rm sonar-scanner.zip
       - ls /home
