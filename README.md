@@ -1,4 +1,6 @@
-# pantry_manager_ui
+# Pantry Manager UI (Flutter)
+
+[![Build Status](https://drone.mjy-home.duckdns.org/api/badges/senbeiwabaka/pantry-manager-ui-flutter/status.svg?ref=refs/heads/main)](https://drone.mjy-home.duckdns.org/senbeiwabaka/pantry-manager-ui-flutter)
 
 Flutter UI for [Pantry Manager](https://github.com/senbeiwabaka/pantry-manager-api).
 
