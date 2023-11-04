@@ -77,7 +77,7 @@ steps:
       - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
       - ls /bin/sonar-scanner-$sonar_version
       - ls /bin/sonar-scanner-$sonar_version/bin
-      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token
+      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token -Dsonar.projectKey=senbeiwabaka_pantry-manager-ui-flutter_AYuXJKOpKsN7YYU1slaQ -Dsonar.sources=.
 
   # - name: code-analysis
   #   image: aosapps/drone-sonar-plugin
