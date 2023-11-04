@@ -88,8 +88,8 @@ steps:
       - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-17-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
       - yes | apt-get -qq install android-sdk > /dev/null
       - export ANDROID_HOME=/usr/lib/android-sdk
-      - wget -q https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
-      - unzip -q commandlinetools-linux-10406996_latest.zip -d cmdline-tools
+      - wget -q https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip > /dev/null
+      - unzip -q commandlinetools-linux-10406996_latest.zip -d cmdline-tools > /dev/null
       - mkdir --parents "$ANDROID_HOME/cmdline-tools/latest"
       - mv cmdline-tools/cmdline-tools/* "$ANDROID_HOME/cmdline-tools/latest/"
       - export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
@@ -99,7 +99,6 @@ steps:
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
-      - cd /drone/src/
       # - dart pub global activate test_cov_console
       - export PATH="$PATH:/root/.pub-cache/bin"
       # - flutter test
@@ -109,7 +108,8 @@ steps:
       - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
       - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
       - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
-      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token -Dproject.settings=/drone/src/sonar-project.properties
+      - cd /drone/src/
+      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token 
 
   # - name: Analysis
   #   image: ubuntu:20.04
