@@ -75,4 +75,5 @@ steps:
       - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
       - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
       - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
-      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token -Dproject.settings=sonar-project.properties
+      - ls
+      - sonar-scanner -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token -Dproject.settings=./sonar-project.properties
