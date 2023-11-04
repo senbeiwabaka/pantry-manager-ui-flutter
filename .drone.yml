@@ -54,11 +54,10 @@ steps:
       - mkdir -p .android && touch .android/repositories.cfg
       # - mkdir -p /root/.android && touch /root/.android/repositories.cfg
       - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip > /dev/null
-      - ls /home
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
-      - ls /home/Android/comandline-tools/latest
-      - mv cmdline-tools/bin Android/comandline-tools/latest
-      - ls 
+      - ls /home/Android/cmdline-tools/latest
+      - mv cmdline-tools/bin Android/cmdline-tools/latest
+      - ls /home/Android/cmdline-tools/latest
       - cd /home/Android/cmdline-tools/bin && yes | ./sdkmanager --licenses
       - cd /home/Android/cmdline-tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - ls /home/Android/
