@@ -29,6 +29,15 @@ steps:
       - flutter test
       # - dart run test_cov_console
 
+---
+kind: pipeline
+type: docker
+name: amd64
+
+platform:
+  arch: amd64
+
+steps:
   - name: Analysis
     image: ubuntu:20.04
     commands:
