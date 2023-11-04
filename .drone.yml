@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: amd64
+name: Build & Test
 
 platform:
   arch: amd64
@@ -32,7 +32,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: amd64
+name: Code Analysis
 
 platform:
   arch: amd64
