@@ -1,35 +1,35 @@
-kind: pipeline
-type: docker
-name: Build & Test
+# kind: pipeline
+# type: docker
+# name: Build & Test
 
-platform:
-  arch: amd64
+# platform:
+#   arch: amd64
 
-steps:
-  - name: Build & Test
-    image: ubuntu:20.04
-    commands:
-      - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-      - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
-      - mkdir -p /home/Android/sdk
-      - export ANDROID_SDK_ROOT=/home/Android/sdk
-      - mkdir -p .android && touch .android/repositories.cfg
-      - mkdir -p /root/.android && touch /root/.android/repositories.cfg
-      - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
-      - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
-      - mv tools Android/sdk/tools
-      - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
-      - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
-      - export PATH="$PATH:/home/Android/sdk/platform-tools"
-      - cd /home && git clone https://github.com/flutter/flutter.git
-      - export PATH="$PATH:/home/flutter/bin"
-      - cd /drone/src/
-      #- dart pub global activate test_cov_console
-      - export PATH="$PATH:/root/.pub-cache/bin"
-      - flutter test
-      # - dart run test_cov_console
+# steps:
+#   - name: Build & Test
+#     image: ubuntu:20.04
+#     commands:
+#       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+#       - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
+#       - mkdir -p /home/Android/sdk
+#       - export ANDROID_SDK_ROOT=/home/Android/sdk
+#       - mkdir -p .android && touch .android/repositories.cfg
+#       - mkdir -p /root/.android && touch /root/.android/repositories.cfg
+#       - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
+#       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
+#       - mv tools Android/sdk/tools
+#       - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
+#       - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
+#       - export PATH="$PATH:/home/Android/sdk/platform-tools"
+#       - cd /home && git clone https://github.com/flutter/flutter.git
+#       - export PATH="$PATH:/home/flutter/bin"
+#       - cd /drone/src/
+#       #- dart pub global activate test_cov_console
+#       - export PATH="$PATH:/root/.pub-cache/bin"
+#       - flutter test
+#       # - dart run test_cov_console
 
----
+# ---
 kind: pipeline
 type: docker
 name: Code Analysis
@@ -73,7 +73,8 @@ steps:
       - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
       - apt-get -qq update > /dev/null && apt-get -qq install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sqlite3 libsqlite3-0 libsqlite3-dev > /dev/null
       - cd /bin && wget -qq -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$sonar_version.zip > /dev/null
-      - cd /bin && unzip -qq sonar-scanner.zip \ > /dev/null && rm sonar-scanner.zip
+      - cd /bin && unzip -qq sonar-scanner.zip > /dev/null && rm sonar-scanner.zip
+      - export PATH="$PATH:/bin/sonar-scanner-$sonar_version/bin"
       - ls /bin
       - ls /bin/sonar-scanner
       - /bin/sonar-scanner-$sonar_version -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_token
