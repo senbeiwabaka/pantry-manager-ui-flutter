@@ -18,16 +18,16 @@ steps:
       - cd /home && wget -qq -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > /dev/null
       - unzip -q sdk-tools.zip > /dev/null && rm sdk-tools.zip
       - mv tools Android/sdk/tools
-      - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses
+      - cd /home/Android/sdk/tools/bin && yes | ./sdkmanager --licenses > /dev/null
       - cd /home/Android/sdk/tools/bin && ./sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
       - export PATH="$PATH:/home/flutter/bin"
       - cd /drone/src/
-      #- dart pub global activate test_cov_console
+      - dart pub global activate test_cov_console
       - export PATH="$PATH:/root/.pub-cache/bin"
       - flutter test
-      # - dart run test_cov_console
+      - dart run test_cov_console
 
 ---
 kind: pipeline
@@ -57,7 +57,7 @@ steps:
       - mkdir --parents "$ANDROID_HOME/cmdline-tools/latest"
       - mv cmdline-tools/cmdline-tools/* "$ANDROID_HOME/cmdline-tools/latest/"
       - export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-      - yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+      - yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null
       - $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-33" "sources;android-34" > /dev/null
       - export PATH="$PATH:/home/Android/sdk/platform-tools"
       - cd /home && git clone https://github.com/flutter/flutter.git
